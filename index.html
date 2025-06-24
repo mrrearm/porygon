@@ -1,0 +1,613 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Porygon.exe</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&display=swap');
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            background: linear-gradient(135deg, #0f0f23 0%, #1a1a2e 100%);
+            color: #00d4ff;
+            font-family: 'Orbitron', monospace;
+            overflow-x: hidden;
+            min-height: 100vh;
+        }
+        
+        /* Floating Particles */
+        .particles {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: -1;
+        }
+        
+        .particle {
+            position: absolute;
+            width: 4px;
+            height: 4px;
+            border-radius: 50%;
+            animation: float 8s ease-in-out infinite;
+        }
+        
+        .particle.cyan {
+            background: #00d4ff;
+            box-shadow: 0 0 6px #00d4ff;
+        }
+        
+        .particle.peach {
+            background: #ff9a8b;
+            box-shadow: 0 0 6px #ff9a8b;
+        }
+        
+        @keyframes float {
+            0%, 100% { 
+                transform: translateY(0px) translateX(0px);
+                opacity: 0.3;
+            }
+            50% { 
+                transform: translateY(-50px) translateX(20px);
+                opacity: 1;
+            }
+        }
+        
+        /* Header Section */
+        .header {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding: 20px;
+        }
+        
+        /* 3D Porygon Logo */
+        .porygon-logo {
+            width: 90px;
+            height: 90px;
+            margin-bottom: 25px;
+            position: relative;
+            perspective: 200px;
+            animation: gentleFloat 3s ease-in-out infinite;
+        }
+        
+        .porygon-3d {
+            width: 100%;
+            height: 100%;
+            position: relative;
+            transform-style: preserve-3d;
+            animation: rotate3d 8s linear infinite;
+        }
+        
+        .porygon-part {
+            position: absolute;
+            border-radius: 8px;
+        }
+        
+        /* Main body - blue diamond */
+        .body-main {
+            width: 45px;
+            height: 45px;
+            background: linear-gradient(135deg, #4a9eff, #2c5aa0);
+            transform: rotateX(0deg) rotateY(0deg) translateZ(20px);
+            top: 22px;
+            left: 22px;
+            clip-path: polygon(50% 0%, 100% 50%, 50% 100%, 0% 50%);
+            box-shadow: 0 0 15px rgba(74, 158, 255, 0.6);
+        }
+        
+        /* Head - dark blue/purple */
+        .head {
+            width: 30px;
+            height: 30px;
+            background: linear-gradient(135deg, #2c3e50, #1a252f);
+            transform: rotateX(20deg) rotateY(10deg) translateZ(30px);
+            top: 8px;
+            left: 30px;
+            border-radius: 50% 50% 50% 50% / 60% 60% 40% 40%;
+            box-shadow: 0 0 10px rgba(44, 62, 80, 0.8);
+        }
+        
+        /* Pink accent */
+        .accent-pink {
+            width: 18px;
+            height: 18px;
+            background: linear-gradient(135deg, #ff6b9d, #e91e63);
+            transform: rotateX(-10deg) rotateY(20deg) translateZ(25px);
+            top: 12px;
+            left: 15px;
+            clip-path: polygon(50% 0%, 100% 38%, 82% 100%, 18% 100%, 0% 38%);
+            box-shadow: 0 0 12px rgba(255, 107, 157, 0.7);
+        }
+        
+        /* Light blue parts */
+        .part-light-1 {
+            width: 22px;
+            height: 15px;
+            background: linear-gradient(135deg, #87ceeb, #4682b4);
+            transform: rotateX(30deg) rotateY(-15deg) translateZ(15px);
+            top: 45px;
+            left: 12px;
+            box-shadow: 0 0 8px rgba(135, 206, 235, 0.5);
+        }
+        
+        .part-light-2 {
+            width: 18px;
+            height: 18px;
+            background: linear-gradient(135deg, #87ceeb, #4682b4);
+            transform: rotateX(-20deg) rotateY(25deg) translateZ(10px);
+            top: 50px;
+            left: 55px;
+            clip-path: polygon(30% 0%, 70% 0%, 100% 30%, 100% 70%, 70% 100%, 30% 100%, 0% 70%, 0% 30%);
+            box-shadow: 0 0 8px rgba(135, 206, 235, 0.5);
+        }
+        
+        /* Dark blocks */
+        .block-1, .block-2, .block-3 {
+            width: 9px;
+            height: 9px;
+            background: linear-gradient(135deg, #1a252f, #0f1419);
+            box-shadow: 0 0 5px rgba(26, 37, 47, 0.8);
+        }
+        
+        .block-1 {
+            transform: rotateX(45deg) rotateY(45deg) translateZ(35px);
+            top: 4px;
+            left: 8px;
+        }
+        
+        .block-2 {
+            transform: rotateX(-30deg) rotateY(60deg) translateZ(25px);
+            top: 30px;
+            left: 4px;
+        }
+        
+        .block-3 {
+            transform: rotateX(60deg) rotateY(-20deg) translateZ(20px);
+            top: 65px;
+            left: 68px;
+        }
+        
+        /* Stars/sparkles */
+        .star {
+            width: 6px;
+            height: 6px;
+            background: #ffd700;
+            clip-path: polygon(50% 0%, 61% 35%, 98% 35%, 68% 57%, 79% 91%, 50% 70%, 21% 91%, 32% 57%, 2% 35%, 39% 35%);
+            box-shadow: 0 0 6px #ffd700;
+        }
+        
+        .star-1 {
+            transform: translateZ(40px);
+            top: 18px;
+            left: 4px;
+            animation: twinkle 2s ease-in-out infinite;
+        }
+        
+        .star-2 {
+            transform: translateZ(30px);
+            top: 55px;
+            left: 78px;
+            animation: twinkle 2.5s ease-in-out infinite;
+            animation-delay: 1s;
+        }
+        
+        @keyframes rotate3d {
+            0% { transform: rotateX(0deg) rotateY(0deg); }
+            100% { transform: rotateX(360deg) rotateY(360deg); }
+        }
+        
+        @keyframes gentleFloat {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+        }
+        
+        /* Light Beams */
+        .light-beams {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: -1;
+        }
+        
+        .light-beam {
+            position: absolute;
+            background: linear-gradient(45deg, transparent, #00d4ff, transparent);
+            opacity: 0;
+            animation: beamFlash 3s ease-in-out infinite;
+        }
+        
+        .beam-left-1 {
+            width: 200px;
+            height: 3px;
+            top: 30%;
+            left: -150px;
+            transform: rotate(-30deg);
+            animation-delay: 0s;
+        }
+        
+        .beam-left-2 {
+            width: 150px;
+            height: 2px;
+            top: 50%;
+            left: -120px;
+            transform: rotate(20deg);
+            animation-delay: 1s;
+        }
+        
+        .beam-left-3 {
+            width: 180px;
+            height: 4px;
+            top: 70%;
+            left: -140px;
+            transform: rotate(-45deg);
+            animation-delay: 2s;
+        }
+        
+        .beam-right-1 {
+            width: 200px;
+            height: 3px;
+            top: 25%;
+            right: -150px;
+            transform: rotate(30deg);
+            animation-delay: 0.5s;
+        }
+        
+        .beam-right-2 {
+            width: 160px;
+            height: 2px;
+            top: 55%;
+            right: -130px;
+            transform: rotate(-20deg);
+            animation-delay: 1.5s;
+        }
+        
+        .beam-right-3 {
+            width: 190px;
+            height: 4px;
+            top: 75%;
+            right: -160px;
+            transform: rotate(45deg);
+            animation-delay: 2.5s;
+        }
+        
+        @keyframes beamFlash {
+            0%, 70% { 
+                opacity: 0;
+                transform: scale(0.5);
+            }
+            15%, 25% { 
+                opacity: 0.8;
+                transform: scale(1);
+                box-shadow: 0 0 20px #00d4ff;
+            }
+            30%, 100% { 
+                opacity: 0;
+                transform: scale(0.5);
+            }
+        }
+        
+        @keyframes twinkle {
+            0%, 100% { opacity: 0.5; transform: scale(1); }
+            50% { opacity: 1; transform: scale(1.2); }
+        }
+        
+        /* Simple Title */
+        .title {
+            font-size: clamp(2rem, 5vw, 3rem); /* Made title smaller */
+            font-weight: 700;
+            color: #00d4ff;
+            text-transform: uppercase;
+            letter-spacing: 4px;
+            margin-bottom: 25px; /* Reduced margin-bottom */
+            text-shadow: 0 0 10px rgba(0, 212, 255, 0.5);
+            text-align: center; /* Centered the title */
+        }
+        
+        /* Navigation Grid */
+        .nav-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            max-width: 800px;
+            width: 100%;
+            padding: 0 20px;
+        }
+        
+        .nav-link {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 15px 25px;
+            background: rgba(0, 212, 255, 0.05);
+            border: 1px solid rgba(0, 212, 255, 0.3);
+            border-radius: 8px;
+            text-decoration: none;
+            color: #00d4ff;
+            font-weight: 400;
+            letter-spacing: 1px;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(10px);
+        }
+        
+        .nav-link:hover {
+            background: rgba(0, 212, 255, 0.1);
+            border-color: #00d4ff;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0, 212, 255, 0.2);
+        }
+        
+        .nav-link .icon {
+            margin-right: 10px;
+            font-size: 1.1em;
+        }
+        
+        /* Contact Section */
+        .contact-section {
+            margin-top: 20px; /* Reduced margin-top */
+            padding: 40px 20px 20px; /* Adjusted padding */
+            text-align: center;
+        }
+        
+        .contact-email {
+            color: #ff9a8b;
+            font-size: 1.1em;
+            letter-spacing: 1px;
+            margin-bottom: 20px;
+        }
+        
+        .footer {
+            color: rgba(255, 255, 255, 0.5);
+            font-size: 0.9em;
+            margin-top: 20px;
+        }
+        
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .nav-grid {
+                grid-template-columns: 1fr;
+                gap: 15px;
+            }
+            
+            .porygon-logo {
+                width: 70px;
+                height: 70px;
+            }
+            
+            .title {
+                letter-spacing: 2px;
+                margin-bottom: 30px; /* Adjusted margin-bottom for mobile */
+            }
+            
+            .nav-link {
+                padding: 12px 20px;
+            }
+            
+            /* Scale down 3D elements for mobile */
+            .body-main {
+                width: 35px;
+                height: 35px;
+                top: 17px;
+                left: 17px;
+            }
+            
+            .head {
+                width: 23px;
+                height: 23px;
+                top: 6px;
+                left: 23px;
+            }
+            
+            .accent-pink {
+                width: 14px;
+                height: 14px;
+                top: 9px;
+                left: 12px;
+            }
+            
+            .part-light-1 {
+                width: 17px;
+                height: 12px;
+                top: 35px;
+                left: 9px;
+            }
+            
+            .part-light-2 {
+                width: 14px;
+                height: 14px;
+                top: 39px;
+                left: 43px;
+            }
+            
+            .block-1, .block-2, .block-3 {
+                width: 7px;
+                height: 7px;
+            }
+            
+            .block-1 {
+                top: 3px;
+                left: 6px;
+            }
+            
+            .block-2 {
+                top: 23px;
+                left: 3px;
+            }
+            
+            .block-3 {
+                top: 50px;
+                left: 53px;
+            }
+            
+            .star {
+                width: 5px;
+                height: 5px;
+            }
+            
+            .star-1 {
+                top: 14px;
+                left: 3px;
+            }
+            
+            .star-2 {
+                top: 43px;
+                left: 61px;
+            }
+            
+            /* Scale down light beams for mobile */
+            .beam-left-1, .beam-left-2, .beam-left-3 {
+                width: 100px;
+                left: -75px;
+            }
+            
+            .beam-right-1, .beam-right-2, .beam-right-3 {
+                width: 100px;
+                right: -75px;
+            }
+        }
+        
+        /* Smooth Scrolling */
+        html {
+            scroll-behavior: smooth;
+        }
+        
+        /* Performance Optimizations */
+        .nav-link {
+            will-change: transform;
+        }
+        
+        .particle {
+            will-change: transform, opacity;
+        }
+    </style>
+</head>
+<body>
+    <div class="particles" id="particles"></div>
+    
+    <div class="header">
+        <div class="porygon-logo">
+            <div class="porygon-3d">
+                <div class="porygon-part body-main"></div>
+                <div class="porygon-part head"></div>
+                <div class="porygon-part accent-pink"></div>
+                
+                <div class="porygon-part part-light-1"></div>
+                <div class="porygon-part part-light-2"></div>
+                
+                <div class="porygon-part block-1"></div>
+                <div class="porygon-part block-2"></div>
+                <div class="porygon-part block-3"></div>
+                
+                <div class="porygon-part star star-1"></div>
+                <div class="porygon-part star star-2"></div>
+            </div>
+        </div>
+        
+        <h2 class="title">Porygon.exe</h2>
+        
+        <div class="nav-grid">
+            <div class="light-beams">
+                <div class="light-beam beam-left-1"></div>
+                <div class="light-beam beam-left-2"></div>
+                <div class="light-beam beam-left-3"></div>
+                <div class="light-beam beam-right-1"></div>
+                <div class="light-beam beam-right-2"></div>
+                <div class="light-beam beam-right-3"></div>
+            </div>
+            <a href="https://3dporygonexe.gumroad.com/l/sqeeyg" class="nav-link" target="_blank">
+                <span class="icon">🛒</span>
+                <span>Gumroad Store</span>
+            </a>
+            <a href="https://ko-fi.com/3dporygonexe" class="nav-link" target="_blank">
+                <span class="icon">☕</span>
+                <span>Support on Ko-fi</span>
+            </a>
+            <a href="https://paypal.me/MashaKP5?locale.x=it_IT" class="nav-link" target="_blank">
+                <span class="icon">💳</span>
+                <span>PayPal Donation</span>
+            </a>
+            <a href="https://t.me/+Jdgv1FNH6OU3OTU0" class="nav-link" target="_blank">
+                <span class="icon">📱</span>
+                <span>Telegram</span>
+            </a>
+            <a href="https://www.amazon.it/hz/wishlist/ls/2UFTLG13NRHWI?ref_=wl_share" class="nav-link" target="_blank">
+                <span class="icon">🎁</span>
+                <span>Amazon Wishlist</span>
+            </a>
+            <a href="https://www.instagram.com/3d_porygon.exe/" class="nav-link" target="_blank">
+                <span class="icon">📸</span>
+                <span>Instagram</span>
+            </a>
+            <a href="https://tiktok.com/@porygonexe" class="nav-link" target="_blank">
+                <span class="icon">🎵</span>
+                <span>TikTok</span>
+            </a>
+        </div>
+        
+        <div class="contact-section" style="margin-top: 0;"> <div class="contact-email">✉️ VenomKrapiva@gmail.com</div>
+            <div class="footer">3D Figure Repaint</div>
+        </div>
+    </div>
+    
+    <script>
+        // Create floating particles
+        function createParticles() {
+            const particlesContainer = document.getElementById('particles');
+            const particleCount = 20;
+            
+            for (let i = 0; i < particleCount; i++) {
+                const particle = document.createElement('div');
+                particle.className = `particle ${Math.random() > 0.5 ? 'cyan' : 'peach'}`;
+                
+                // Random position
+                particle.style.left = Math.random() * 100 + '%';
+                particle.style.top = Math.random() * 100 + '%';
+                
+                // Random animation delay
+                particle.style.animationDelay = Math.random() * 8 + 's';
+                particle.style.animationDuration = (Math.random() * 4 + 6) + 's';
+                
+                particlesContainer.appendChild(particle);
+            }
+        }
+        
+        // Initialize particles on load
+        document.addEventListener('DOMContentLoaded', createParticles);
+        
+        // Smooth hover effects
+        document.querySelectorAll('.nav-link').forEach(link => {
+            link.addEventListener('mouseenter', function() {
+                this.style.transform = 'translateY(-2px) scale(1.02)';
+            });
+            
+            link.addEventListener('mouseleave', function() {
+                this.style.transform = 'translateY(0) scale(1)';
+            });
+        });
+        
+        // Gentle parallax effect for logo
+        document.addEventListener('mousemove', (e) => {
+            const logo = document.querySelector('.porygon-3d');
+            const mouseX = (e.clientX / window.innerWidth - 0.5) * 30;
+            const mouseY = (e.clientY / window.innerHeight - 0.5) * 30;
+            
+            logo.style.transform = `rotateX(${mouseY * 0.5}deg) rotateY(${mouseX * 0.5}deg)`;
+        });
+    </script>
+</body>
+</html>
